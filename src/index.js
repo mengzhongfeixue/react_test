@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter as Router,Route,Switch,Redirect } from 'react-router-dom'
 
-import {mainRouter} from './routes'
+import {mainRoutes} from './routes'
 
 
 ReactDOM.render(
@@ -14,7 +14,7 @@ ReactDOM.render(
                return <App {...routeProps} />
            }} />
            {
-               mainRouter.map(route =>{
+               mainRoutes.map(route =>{
                    return <Route key={route.pathname} path={route.pathname} component={route.component} />
                })
            }

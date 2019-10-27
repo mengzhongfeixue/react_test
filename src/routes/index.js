@@ -1,6 +1,6 @@
 import { Dashboard,Login,NotFound,Settings,ArticleEdit,ArticleList } from '../Views'
 
-export const mainRouter = [{
+export const mainRoutes = [{
     pathname: '/login',
     component: Login
 },{
@@ -8,17 +8,27 @@ export const mainRouter = [{
     component: NotFound
 }]
 
-export const adminRouter = [{
+export const adminRoutes = [{
     pathname: '/admin/dashboard',
-    component: Dashboard
+    component: Dashboard,
+    title:'仪表盘',
+    icon:'dashboard',
+    isNav: true
 },{
     pathname: '/admin/article',
     component: ArticleList,
+    title: '文章管理',
+    icon:'unordered-list',
+    isNav: true,
     exact: true
 },{
     pathname: '/admin/article/edit/:id',
-    component: ArticleEdit
+    component: ArticleEdit,
+    title: '文章编辑',
 },{
     pathname: '/admin/settings',
-    component: Settings
+    component: Settings,
+    title: '设置',
+    icon:'setting',
+    isNav: true
 }]
