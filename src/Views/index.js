@@ -1,6 +1,45 @@
-export { default as Dashboard  } from './Dashboard'
-export { default as ArticleList  } from './Article'
-export { default as Login  } from './Login'
-export { default as Settings  } from './Settings'
-export { default as NotFound  } from './NotFound'
-export { default as ArticleEdit  } from './Article/edit'
+import Loadable  from 'react-loadable'
+// 自己写的loadable , 可实现与上面同样的功能，实现无缝切换
+//import Loadable from './myLoadable'
+
+import { Loading } from '../components'
+// 路由懒加载
+const Dashboard = Loadable({
+    loader: () => import('./Dashboard'),
+    loading: Loading
+})
+
+const ArticleList = Loadable({
+    loader: () => import('./Article'),
+    loading: Loading
+})
+
+const ArticleEdit = Loadable({
+    loader: () => import('./Article/edit'),
+    loading: Loading
+})
+
+const Login = Loadable({
+    loader: () => import('./Login'),
+    loading: Loading
+})
+
+const Settings = Loadable({
+    loader: () => import('./Settings'),
+    loading: Loading
+})
+
+const NotFound = Loadable({
+    loader: () => import('./NotFound'),
+    loading: Loading
+})
+
+
+export {
+    Dashboard,
+    ArticleList,
+    ArticleEdit,
+    Login,
+    Settings,
+    NotFound
+}
