@@ -17,7 +17,7 @@ service.interceptors.response.use((resp) =>{
     if(resp.status===200){
         return resp.data
     }else{
-        //错误处理
+        //全局错误处理
         message.error('请求数据失败')
     }
 })
