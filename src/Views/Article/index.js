@@ -3,6 +3,7 @@ import { Card,Table,Tag,Button } from 'antd'
 import moment from 'moment'
 import truncate from 'truncate'
 import { getArticles } from '../../requests'
+import XLSX from 'xlsx'
 const ButtonGroup = Button.Group
 
 const titleDisplayMap = {
@@ -144,6 +145,22 @@ export default class Article extends Component {
             this.getData()
         })
     }
+
+    handleOutputExcel = ()=>{
+        // 在实际的项目中，前端请求后台提供的文件下载地址
+        const data = [Object.keys(this.state.data[0])] //[['id','title','author','amount','creatAt','content']]
+        for (let i=0; i<this.state.data.length; i++){
+            data.push(Object.values(this.state.data[i])) //向数组data中追加‘值数组’
+        }
+
+        /* convert state to workbook */
+        const ws = XLSX.utils.aoa_to_sheet(data)  // data格式：[[],[]]
+        const wb = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(wb,ws,"SheetJS")
+        /* generate XLSX file and send to client */
+        XLSX.writeFile(wb,"sheetjs.xlsx")
+
+    }
     
     render() {
         return (
@@ -151,7 +168,7 @@ export default class Article extends Component {
                 <Card 
                     title="文章列表" 
                     bordered={false} 
-                    extra={<button>导出excel</button>}
+                    extra={<button onClick={this.handleOutputExcel}>导出excel</button>}
                 >
                      {/*rowkey表格行绑定唯一键值 */} 
                     <Table 
