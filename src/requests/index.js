@@ -28,3 +28,8 @@ export const getArticles = (offset=0,limited=10)=>{
         limited
     })
 }
+
+// 删除文章
+export const deleteArticle = (id)=>{
+    return service.post(`api/v1/deleteArticle/${id}`)
+}

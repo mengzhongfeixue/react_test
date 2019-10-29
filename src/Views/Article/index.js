@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Card,Table,Tag,Button } from 'antd'
+import { Card,Table,Tag,Button, Modal, Typography, message } from 'antd'
 import moment from 'moment'
 import truncate from 'truncate'
-import { getArticles } from '../../requests'
+import { getArticles,deleteArticle } from '../../requests'
 import XLSX from 'xlsx'
 const ButtonGroup = Button.Group
 
@@ -35,10 +35,16 @@ export default class Article extends Component {
                   },
             ],
             total: 0,
-            isLoading: false
+            isLoading: false,
+            isShowArticleModal: false,
+            deleteArticleModalContent: '',
+            isDeleteArticleConfirmLoading: false
 
         }
     }
+
+
+
 
     createColumns = (columnKeys) =>{
         const columns= columnKeys.map(item =>{
@@ -83,14 +89,15 @@ export default class Article extends Component {
             }
         })
 
+        // 添加操作
         columns.push({
             title: '操作',
             key: 'action',
-            render: ()=>{
+            render: (text,record)=>{
                 return (
                     <ButtonGroup>
                         <Button size="small" type="primary">编辑</Button>
-                        <Button size="small" type="danger">删除</Button>
+                        <Button size="small" type="danger" onClick={this.handleShowDeleteArticleModal.bind(this,record)}>删除</Button>
                     </ButtonGroup>
                 )
             }
@@ -161,6 +168,55 @@ export default class Article extends Component {
         XLSX.writeFile(wb,"sheetjs.xlsx")
 
     }
+
+
+    handleShowDeleteArticleModal = (record) => {
+        // Modal.confirm({
+        //     title:'此操作不可逆，谨慎操作！！！',
+        //     content:<Typography>确定删除<span style={{color:'#00f'}}>{record.title}</span>吗? </Typography>,
+        //     okText:'要删赶紧',
+        //     cancelText: '跪求别删',
+        //     maskClosable: false,
+        //     onOk(){
+        //         Article.setState({  //有问题
+        //             isLoading: true
+        //         })
+        //     }
+        // })
+
+        this.setState({
+            isShowArticleModal: true,
+            deleteArticleModalContent: record.title,
+            deleteArticleId: record.id
+        })
+
+    }
+
+    handleDeleteArticleCancle=()=>{
+        this.setState({
+            isShowArticleModal: false,
+            deleteArticleModalContent: '',
+            isDeleteArticleConfirmLoading: false
+        })       
+    }
+
+    handleDeleteArticleConfirm=()=>{
+        this.setState({
+            isDeleteArticleConfirmLoading: true
+        })
+        deleteArticle(this.state.deleteArticleId)
+            .then(res=>{
+                message.success(res.data.msg)
+                this.getData()
+            })
+            
+            .finally(()=>{
+                this.setState({
+                    isDeleteArticleConfirmLoading: false,
+                    isShowArticleModal: false
+                })
+            })
+    }
     
     render() {
         return (
@@ -188,7 +244,19 @@ export default class Article extends Component {
                         }} 
                         loading={this.state.isLoading}
                     
-                    />
+                    />    
+      
+                    <Modal 
+                        title='此操作不可逆，慎重！'  
+                        visible={this.state.isShowArticleModal}
+                        onCancel={this.handleDeleteArticleCancle}
+                        maskClosable= {false}
+                        confirmLoading={this.state.isDeleteArticleConfirmLoading}
+                        onOk={this.handleDeleteArticleConfirm}
+                    >
+                        <Typography>确定删除<span style={{color:"#00f"}}>{this.state.deleteArticleModalContent}</span>吗？</Typography>
+                    </Modal>
+
                 </Card>
             </div>
         )
