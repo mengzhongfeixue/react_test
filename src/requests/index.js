@@ -33,3 +33,13 @@ export const getArticles = (offset=0,limited=10)=>{
 export const deleteArticle = (id)=>{
     return service.post(`api/v1/deleteArticle/${id}`)
 }
+
+// 编辑文章
+export const editArticle = (id)=>{
+    return service.post(`api/v1/editArticle/${id}`)
+}
+
+//保存文章
+export const saveArticle = (id,data)=>{
+    return service.post(`api/v1/saveArticle/${id}`,data)
+}

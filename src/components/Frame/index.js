@@ -12,6 +12,11 @@ class Frame extends Component {
     handleMenuClick = ({key}) => {
       this.props.history.push(key)
     }
+    selectedKeysAddEditArticle=(path)=>{
+       const pathToArr = path.split('/')
+       pathToArr.length = 3
+       return pathToArr.join('/')
+    }
     render() {
         return (
             <Layout>
@@ -24,7 +29,7 @@ class Frame extends Component {
               <Sider width={200} style={{ background: '#fff' }}>
                 <Menu
                   mode="inline"
-                  selectedKeys={[this.props.location.pathname]}
+                  selectedKeys={[this.selectedKeysAddEditArticle(this.props.location.pathname)]}
                   onClick={this.handleMenuClick}
                   style={{ height: '100%', borderRight: 0 }}
                 >

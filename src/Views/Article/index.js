@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card,Table,Tag,Button, Modal, Typography, message } from 'antd'
+import { Card,Table,Tag,Button, Modal, Typography, message,Tooltip } from 'antd'
 import moment from 'moment'
 import truncate from 'truncate'
 import { getArticles,deleteArticle } from '../../requests'
@@ -55,7 +55,11 @@ export default class Article extends Component {
                     // render属性用于对请求过来的数据做修饰处理
                     render: (text,record) =>{
                         const {amount} = record
-                        return <Tag color={amount>1000?'green':'red'}>{record.amount}</Tag>
+                        return (
+                            <Tooltip title={amount>1000?"热文":"最新"}>
+                                <Tag color={amount>1000?'green':'red'}>{record.amount}</Tag>
+                            </Tooltip>
+                        )
                     }
                 }
             }
@@ -96,7 +100,7 @@ export default class Article extends Component {
             render: (text,record)=>{
                 return (
                     <ButtonGroup>
-                        <Button size="small" type="primary">编辑</Button>
+                        <Button size="small" type="primary" onClick={this.handleEditArticle.bind(this,record)}>编辑</Button>
                         <Button size="small" type="danger" onClick={this.handleShowDeleteArticleModal.bind(this,record)}>删除</Button>
                     </ButtonGroup>
                 )
@@ -216,6 +220,13 @@ export default class Article extends Component {
                     isShowArticleModal: false
                 })
             })
+    }
+
+    handleEditArticle=(record)=>{   // 这种方式传值，编辑页刷新后页面将没了，实际开发中不这样传，比如 localStorage
+        this.props.history.push({
+            pathname: `/admin/article/edit/${record.id}`,
+            state: { ...record }
+        })
     }
     
     render() {
