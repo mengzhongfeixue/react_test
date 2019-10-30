@@ -43,3 +43,8 @@ export const editArticle = (id)=>{
 export const saveArticle = (id,data)=>{
     return service.post(`api/v1/saveArticle/${id}`,data)
 }
+
+//获取流量统计
+export const getAmount = ()=>{
+    return service.post(`api/v1/amount`)
+}

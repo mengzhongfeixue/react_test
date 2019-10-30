@@ -21,3 +21,7 @@
 </script>
 
 富文本编辑器： KindEditor、   UEditor(百度的)、 wangeditor、 edit.md(支持markdown) 等
+
+数据可视化：1、canvas 位图  2、 svg 矢量图  3、 三维 webgl
+           √4、echart 5、highcharts 6、d3 dataV antV 
+           egret 游戏   rapheal.js等
