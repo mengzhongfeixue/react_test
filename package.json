@@ -10,8 +10,11 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-loadable": "^5.5.0",
+    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "truncate": "^2.1.0",
     "wangeditor": "^3.1.1",
     "xlsx": "^0.15.1"

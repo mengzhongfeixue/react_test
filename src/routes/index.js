@@ -1,4 +1,4 @@
-import { Dashboard,Login,NotFound,Settings,ArticleEdit,ArticleList } from '../Views'
+import { Dashboard,Login,NotFound,Settings,ArticleEdit,ArticleList,Notifications } from '../Views'
 
 export const mainRoutes = [{
     pathname: '/login',
@@ -30,5 +30,11 @@ export const adminRoutes = [{
     component: Settings,
     title: '设置',
     icon:'setting',
+    isNav: true
+},{
+    pathname: '/admin/notifications',
+    component: Notifications,
+    title: '通知',
+    icon:'message',
     isNav: true
 }]

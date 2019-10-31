@@ -1,14 +1,28 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Breadcrumb,Icon } from 'antd';
+import { Layout, Menu, Breadcrumb,Icon, Dropdown,Avatar,Badge} from 'antd';
 import logo from './logo.png'
 import './frame.less'
 import { withRouter } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getNotificationsList} from '../../actions/notifications'
 //import { adminRoutes } from '../../routes'     // ReferenceError: Cannot access 'adminRoutes' before initialization
 const { Header, Content, Sider } = Layout;
 
+const mapStateToProps=(state)=>{
+  return {
+    notificationsCount: state.notifications.list.filter(item=>item.hasRead===false).length
+  }
+  
+}
 
+@connect(mapStateToProps,{getNotificationsList})
 @withRouter
 class Frame extends Component {
+  
+    componentDidMount(){
+      this.props.getNotificationsList()
+    }
+
     handleMenuClick = ({key}) => {
       this.props.history.push(key)
     }
@@ -17,6 +31,23 @@ class Frame extends Component {
        pathToArr.length = 3
        return pathToArr.join('/')
     }
+    handleDropdownMenuClick = ({key}) => {
+      this.props.history.push(key)
+    }
+    // 定义成方法，动态渲染
+    renderDropdown =()=> (
+      <Menu onClick={this.handleDropdownMenuClick}>
+        <Menu.Item key="/admin/notifications">
+          <Badge dot={Boolean(this.props.notificationsCount)}>系统消息</Badge>
+        </Menu.Item>
+        <Menu.Item key="/admin/settings">
+          <Badge>个人中心</Badge>
+        </Menu.Item>
+        <Menu.Item key="/login">
+          <Badge>退出登录</Badge>
+        </Menu.Item>
+      </Menu>
+    )
     render() {
         return (
             <Layout>
@@ -24,6 +55,14 @@ class Frame extends Component {
               <div className="test-logo" >
                 <img src={logo} alt="React_log" />
               </div>
+              <Dropdown overlay={this.renderDropdown}>
+                <div style={{display:'flex',alignItems:'center'}}>
+                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />&nbsp;
+                    <Badge count={this.props.notificationsCount} offset={[10,-10]}>欢迎你！ 成龙</Badge> 
+                  <Icon type="down" />
+                </div>
+              </Dropdown>
+ 
             </Header>
             <Layout>
               <Sider width={200} style={{ background: '#fff' }}>

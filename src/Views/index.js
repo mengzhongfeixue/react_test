@@ -29,6 +29,11 @@ const Settings = Loadable({
     loading: Loading
 })
 
+const Notifications = Loadable({
+    loader: () => import('./Notifications'),
+    loading: Loading
+})
+
 const NotFound = Loadable({
     loader: () => import('./NotFound'),
     loading: Loading
@@ -41,5 +46,6 @@ export {
     ArticleEdit,
     Login,
     Settings,
+    Notifications,
     NotFound
 }
