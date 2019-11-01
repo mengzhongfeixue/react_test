@@ -114,25 +114,32 @@ export default class Article extends Component {
         this.setState({
             isLoading: true
         })
-        getArticles().then(res=>{
-            console.log(res)
-            const columnKeys = Object.keys(res.data.list[0])
-            const columns = this.createColumns(columnKeys)
+        getArticles()
+            .then(res=>{
+                console.log(res)
+                const columnKeys = Object.keys(res.data.list[0])
+                const columns = this.createColumns(columnKeys)
 
-            this.setState({
-                data: res.data.list,
-                columns:columns,
-                total: res.data.total,
+                // ajax请求期间，用户切换了页面（请求完成时组件已经销毁），请求到数据后不再 setState ,防止用户快速切换页面时报错
+                if(!this.updater.isMounted(this)) return 
+
+                this.setState({
+                    data: res.data.list,
+                    columns:columns,
+                    total: res.data.total,
+                })
             })
-        })
-        .catch(err =>{
-            // 处理错误，虽然有全局处理
-        })
-        .finally(()=>{
-            this.setState({
-                isLoading: false
+            .catch(err =>{
+                // 处理错误，虽然有全局处理
             })
-        })
+            .finally(()=>{
+                // ajax请求期间，用户切换了页面（请求完成时组件已经销毁），请求到数据后不再 setState ,防止快速切换页面时报错
+                if(!this.updater.isMounted(this)) return 
+
+                this.setState({
+                    isLoading: false
+                })
+            })
     } 
  
     componentDidMount(){

@@ -39,6 +39,11 @@ const NotFound = Loadable({
     loading: Loading
 })
 
+const NotAuth = Loadable({
+    loader: () => import('./NotAuth'),
+    loading: Loading
+})
+
 
 export {
     Dashboard,
@@ -47,5 +52,6 @@ export {
     Login,
     Settings,
     Notifications,
-    NotFound
+    NotFound,
+    NotAuth
 }

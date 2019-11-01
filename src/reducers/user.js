@@ -24,13 +24,6 @@ export default (state=initState, action) =>{
             }
         case actionTypes.LOGIN_FAILED:
             return {
-                // id: '',
-                // avatar:'',
-                // displayName:'',
-                // role:null,
-                // autoToken:'',
-                // isLogin:false,
-                // isLoading:false,
                 ...state,
                 isLogin: false
             }
