@@ -14,7 +14,7 @@ ReactDOM.render(
             <Switch>
                 <Route path="/admin" render={(routeProps) =>{
                     //TODO 权限， 需要登录才能访问 /admin
-                    return <App {...routeProps} />
+                    return store.getState().user.isLogin?<App {...routeProps} /> : <Redirect to="/login" />
                 }} />
                 {
                     mainRoutes.map(route =>{

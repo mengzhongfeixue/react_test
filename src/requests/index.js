@@ -53,3 +53,8 @@ export const getAmount = ()=>{
 export const getNotifications = ()=>{
     return service.post('api/v1/notifications')
 }
+
+//登录接口
+export const loginRequest = (userInfo)=>{
+    return service.post('/api/v1/login',userInfo)
+}

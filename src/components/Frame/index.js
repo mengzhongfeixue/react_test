@@ -5,17 +5,20 @@ import './frame.less'
 import { withRouter } from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getNotificationsList} from '../../actions/notifications'
+import {logout} from '../../actions/user'
 //import { adminRoutes } from '../../routes'     // ReferenceError: Cannot access 'adminRoutes' before initialization
 const { Header, Content, Sider } = Layout;
 
 const mapStateToProps=(state)=>{
   return {
-    notificationsCount: state.notifications.list.filter(item=>item.hasRead===false).length
+    notificationsCount: state.notifications.list.filter(item=>item.hasRead===false).length,
+    avatar: state.user.avatar,
+    displayName: state.user.displayName,
   }
   
 }
 
-@connect(mapStateToProps,{getNotificationsList})
+@connect(mapStateToProps,{getNotificationsList,logout})
 @withRouter
 class Frame extends Component {
   
@@ -32,7 +35,12 @@ class Frame extends Component {
        return pathToArr.join('/')
     }
     handleDropdownMenuClick = ({key}) => {
+      if(key==="/login"){
+        this.props.logout()
+      }
       this.props.history.push(key)
+      
+      
     }
     // 定义成方法，动态渲染
     renderDropdown =()=> (
@@ -43,7 +51,7 @@ class Frame extends Component {
         <Menu.Item key="/admin/settings">
           <Badge>个人中心</Badge>
         </Menu.Item>
-        <Menu.Item key="/login">
+        <Menu.Item key="/login" >
           <Badge>退出登录</Badge>
         </Menu.Item>
       </Menu>
@@ -57,8 +65,8 @@ class Frame extends Component {
               </div>
               <Dropdown overlay={this.renderDropdown}>
                 <div style={{display:'flex',alignItems:'center'}}>
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />&nbsp;
-                    <Badge count={this.props.notificationsCount} offset={[10,-10]}>欢迎你！ 成龙</Badge> 
+                  <Avatar src={this.props.avatar} />&nbsp;
+                    <Badge count={this.props.notificationsCount} offset={[10,-10]}>欢迎你！ {this.props.displayName}</Badge> 
                   <Icon type="down" />
                 </div>
               </Dropdown>
