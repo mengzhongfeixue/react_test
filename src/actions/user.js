@@ -53,5 +53,14 @@ export const logout = ()=>dispatch=>{
     dispatch(loginFailed())
 }
 
+export const changeAvatar = (avatarUrl) =>{
+    return {
+        type: actionTypes.CHANGE_AVATAR,
+        payload:{
+            avatarUrl
+        }
+    }
+}
+
 
 
