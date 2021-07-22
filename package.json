@@ -17,7 +17,7 @@
     "redux-thunk": "^2.3.0",
     "truncate": "^2.1.0",
     "wangeditor": "^3.1.1",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
